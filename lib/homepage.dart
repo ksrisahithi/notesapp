@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:notes_app/add_note.dart';
@@ -6,8 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:notes_app/login_page.dart';
 import 'viewnote.dart';
-import 'dart:math';
-import 'package:intl/intl.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -24,32 +21,51 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var w = MediaQuery.of(context).size.width;
+    var h = MediaQuery.of(context).size.height;
+
+  int numberOfCards() {
+    if(w >= 1080) {
+      return 4;
+    }
+    if(w > 760) {return 2;}
+    return 1;
+  }
+
+  double screenPadding() {
+    if(w <= 420) {
+      return 0;
+    }
+    else if(w > 760 && w < 1080) {
+      return 100;
+    }
+    else {return 200;}
+  }
+
+  double adaptiveText(double value) {
+    return (value/720)*h;
+  }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Your Notes'),
+        title: const Text('Your Notes'),
         centerTitle: true,
         leading: IconButton(onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage()));
-        }, icon: Icon(Icons.arrow_back_outlined)),
+            Get.to(LoginPage());
+        }, icon: const Icon(Icons.arrow_back_outlined)),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context)
-              .push(
-            MaterialPageRoute(
-              builder: (context) => AddNote(),
-            ),
-          )
+          Get.to(AddNote())!
               .then((value) {
-            print("Calling Set  State !");
             setState(() {});
           });
         },
-        child: Icon(
+        backgroundColor: Colors.blue[900],
+        child: const Icon(
           Icons.add,
           color: Colors.white,
         ),
-        backgroundColor: Colors.blue[900],
       ),
       body: Center(
         child: SizedBox(
@@ -58,7 +74,7 @@ class _HomePageState extends State<HomePage> {
             builder: (context,AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 if (snapshot.data.docs.length == 0) {
-                  return Center(
+                  return const Center(
                     child: Text(
                       "You have no saved Notes !",
                       style: TextStyle(
@@ -67,68 +83,66 @@ class _HomePageState extends State<HomePage> {
                     ),
                   );
                 }
-
-                return GridView.builder(
-                   gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 5,
+                return Padding(
+                  padding: EdgeInsets.only(
+                    left: screenPadding(), top: 8, bottom: 8, right: screenPadding()
                   ),
-                  itemCount: snapshot.data.docs.length,
-                  itemBuilder: (context, index) {
-                    Map data = snapshot.data.docs[index].data();
-                    return Card(
-                      color: Colors.pink[300],
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.of(context)
-                              .push(
-                            MaterialPageRoute(
-                              builder: (context) => ViewNote(
-                                data,
-                                snapshot.data.docs[index].reference,
-                              ),
-                            ),
-                          )
-                              .then((value) {
-                            setState(() {});
-                          });
-                        },
-                        child: SizedBox(
-                          child: Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${data['title']}",
-                                style: TextStyle(
-                                  fontSize: 24.0,
-                                  fontFamily: "Karla",
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black87,
-                                ),
-                              ),
-                              
-                              Container(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                  "${data['description']}",
+                  child: GridView.builder(
+                     gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: numberOfCards(),
+                      childAspectRatio: 3/2,
+                    ),
+                    itemCount: snapshot.data.docs.length,
+                    itemBuilder: (context, index) {
+                      Map data = snapshot.data.docs[index].data();
+                      return Card(
+                        color: Colors.pink[300],
+                        child: InkWell(
+                          onTap: () {
+                            Get.to(ViewNote(data,
+                                  snapshot.data.docs[index].reference,))!
+                                .then((value) {
+                              setState(() {});
+                            });
+                          },
+                          child: SizedBox(
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "${data['title']}",
                                   style: TextStyle(
-                                    fontSize: 20.0,
+                                    fontSize: adaptiveText(24),
                                     fontFamily: "Karla",
+                                    fontWeight: FontWeight.bold,
                                     color: Colors.black87,
                                   ),
                                 ),
+                                
+                                Expanded(
+                                  child: Text(
+                                    "${data['description']}",
+                                    style: TextStyle(
+                                      fontSize: adaptiveText(24)*(5/6),
+                                      fontFamily: "Karla",
+                                      color: Colors.black87,
+                                    ),
+                                    overflow: TextOverflow.fade,
+                                  ),
+                                ),
+                              ],
                               ),
-                            ],
                             ),
                           ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 );
               } else {
-                return Center(
+                return const Center(
                   child: Text("Loading..."),
                 );
               }

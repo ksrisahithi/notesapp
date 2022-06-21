@@ -5,8 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'homepage.dart';
 import 'package:get/get.dart';
 
-import 'login_page.dart';
-
 
 GoogleSignIn googleSignIn = GoogleSignIn();
 final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -36,30 +34,21 @@ void signInWithGoogle(BuildContext context) async {
 
       users.doc(user?.uid).get().then((doc) {
         if (doc.exists) {
-          // old user
+
           doc.reference.update(userData);
 
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => HomePage(),
-            ),
-          );
+          Get.to(HomePage());
         } else {
-          // new user
 
           users.doc(user?.uid).set(userData);
 
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => HomePage(),
-            ),
-          );
+          Get.to(HomePage());
         }
       });
     }
 
-  } catch (PlatformException) {
-    print(PlatformException);
+  } catch (platformException) {
+    print(platformException);
 
   }
 } 

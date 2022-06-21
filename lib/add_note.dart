@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AddNote extends StatefulWidget {
   const AddNote({Key? key}) : super(key: key);
@@ -20,12 +21,12 @@ class _AddNoteState extends State<AddNote> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(onPressed: () {
-            Navigator.of(context).pop();
+            Get.back();
           },
-          icon: Icon(Icons.arrow_back_outlined),
+          icon: const Icon(Icons.arrow_back_outlined),
           ),
           actions: [
-            IconButton(onPressed: add, icon: Icon(Icons.save))
+            IconButton(onPressed: add, icon: const Icon(Icons.save))
           ],
         ),
         body: SingleChildScrollView(
@@ -39,8 +40,8 @@ class _AddNoteState extends State<AddNote> {
                   child: Column(
                     children: [
                       TextFormField(
-                        decoration: InputDecoration.collapsed(hintText: 'Title'),
-                        style: TextStyle(
+                        decoration: const InputDecoration.collapsed(hintText: 'Title'),
+                        style: const TextStyle(
                           fontSize: 32,
                           fontFamily: 'SecularOne',
                           color: Colors.grey,
@@ -50,8 +51,8 @@ class _AddNoteState extends State<AddNote> {
                         },
                       ),
                       TextFormField(
-                        decoration: InputDecoration.collapsed(hintText: 'description'),
-                        style: TextStyle(
+                        decoration: const InputDecoration.collapsed(hintText: 'description'),
+                        style: const TextStyle(
                           fontSize: 16,
                           fontFamily: 'Karla',
                           color: Colors.grey,
@@ -82,7 +83,7 @@ class _AddNoteState extends State<AddNote> {
 
   ref.add(data);
 
-  Navigator.pop(context);
+  Get.back();
 
 
   }

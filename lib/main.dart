@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:notes_app/add_note.dart';
 import 'package:notes_app/firebase_options.dart';
 import 'package:notes_app/login_page.dart';
-import 'package:notes_app/signup_page.dart';
-import 'homepage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

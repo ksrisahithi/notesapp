@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ViewNote extends StatefulWidget {
   final Map data;
-  // final String time;
   final DocumentReference ref;
 
   ViewNote(this.data, this.ref);
@@ -28,17 +28,31 @@ class _ViewNoteState extends State<ViewNote> {
         floatingActionButton: edit
             ? FloatingActionButton(
                 onPressed: save,
-                child: Icon(
+                backgroundColor: Colors.grey[700],
+                child: const Icon(
                   Icons.save_rounded,
                   color: Colors.white,
                 ),
-                backgroundColor: Colors.grey[700],
               )
             : null,
         resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          leading: IconButton(onPressed: () {
+            Get.back();
+          }, icon: const Icon(Icons.arrow_back_outlined)),
+          actions: [
+            IconButton(onPressed: () {
+              setState(() {
+                edit = !edit;
+              });
+            }, icon: const Icon(Icons.edit)),
+            const Padding(padding: EdgeInsets.only(left: 10, right: 10)),
+            IconButton(onPressed: delete, icon: const Icon(Icons.delete),)
+          ],
+        ),
         body: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.all(
+            padding: const EdgeInsets.all(
               12.0,
             ),
             child: Column(
@@ -48,75 +62,27 @@ class _ViewNoteState extends State<ViewNote> {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        Get.back();
                       },
-                      child: Icon(
-                        Icons.arrow_back_ios_outlined,
-                        size: 24.0,
-                      ),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
                           Colors.grey[700],
                         ),
                         padding: MaterialStateProperty.all(
-                          EdgeInsets.symmetric(
+                          const EdgeInsets.symmetric(
                             horizontal: 25.0,
                             vertical: 8.0,
                           ),
                         ),
                       ),
-                    ),
-                    
-                    Row(
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              edit = !edit;
-                            });
-                          },
-                          child: Icon(
-                            Icons.edit,
-                            size: 24.0,
-                          ),
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                              Colors.grey[700],
-                            ),
-                            padding: MaterialStateProperty.all(
-                              EdgeInsets.symmetric(
-                                horizontal: 15.0,
-                                vertical: 8.0,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 8.0,
-                        ),
-                        ElevatedButton(
-                          onPressed: delete,
-                          child: Icon(
-                            Icons.delete_forever,
-                            size: 24.0,
-                          ),
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                              Colors.red[300],
-                            ),
-                            padding: MaterialStateProperty.all(
-                              EdgeInsets.symmetric(
-                                horizontal: 15.0,
-                                vertical: 8.0,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                      child: const Icon(
+                        Icons.arrow_back_ios_outlined,
+                        size: 24.0,
+                      ),
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 12.0,
                 ),
                 Form(
@@ -125,10 +91,10 @@ class _ViewNoteState extends State<ViewNote> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TextFormField(
-                        decoration: InputDecoration.collapsed(
+                        decoration: const InputDecoration.collapsed(
                           hintText: "Title",
                         ),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 32.0,
                           fontFamily: "Karla",
                           fontWeight: FontWeight.bold,
@@ -148,10 +114,10 @@ class _ViewNoteState extends State<ViewNote> {
                         },
                       ),
                       TextFormField(
-                        decoration: InputDecoration.collapsed(
+                        decoration: const InputDecoration.collapsed(
                           hintText: "Note Description",
                         ),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 20.0,
                           fontFamily: "Karla",
                           color: Colors.grey,
@@ -183,7 +149,7 @@ class _ViewNoteState extends State<ViewNote> {
 
   void delete() async {
     await widget.ref.delete();
-    Navigator.pop(context);
+    Get.back();
   }
 
   void save() async {
@@ -191,7 +157,7 @@ class _ViewNoteState extends State<ViewNote> {
       await widget.ref.update(
         {'title': title, 'description': des},
       );
-      Navigator.of(context).pop();
+      Get.back();
     }
   }
 }

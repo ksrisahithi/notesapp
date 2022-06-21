@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_app/auth.dart';
@@ -28,8 +27,8 @@ class _LoginPageState extends State<LoginPage> {
             child: Center(child: Image.asset('assets/images/notes.png', height: 250,),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(
+          const Padding(
+            padding:  EdgeInsets.only(
               top: 12.0,
               bottom: 12.0,
             )
@@ -45,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
           const SizedBox(height: 15,),
           Text('Login In to your account',
                   style: TextStyle(fontSize: 20, color: Colors.grey[500])),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               Container(
                 width: 300,
                 decoration: BoxDecoration(
@@ -55,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                       BoxShadow(
                           blurRadius: 10,
                           spreadRadius: 7,
-                          offset: Offset(1, 1),
+                          offset: const Offset(1, 1),
                           color: Colors.grey.withOpacity(0.2))
                     ]),
                 child: TextField(
@@ -63,20 +62,20 @@ class _LoginPageState extends State<LoginPage> {
                   decoration: InputDecoration(
                       hintText: "Email",
                       prefixIcon:
-                          Icon(Icons.email, color: Colors.deepOrangeAccent),
+                          const Icon(Icons.email, color: Colors.deepOrangeAccent),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide:
-                              BorderSide(color: Colors.white, width: 1.0)),
+                              const BorderSide(color: Colors.white, width: 1.0)),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide:
-                              BorderSide(color: Colors.white, width: 1.0)),
+                              const BorderSide(color: Colors.white, width: 1.0)),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30))),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Container(
                 width: 300,
                 decoration: BoxDecoration(
@@ -86,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
                       BoxShadow(
                           blurRadius: 10,
                           spreadRadius: 7,
-                          offset: Offset(1, 1),
+                          offset: const Offset(1, 1),
                           color: Colors.grey.withOpacity(0.2))
                     ]),
                 child: TextField(
@@ -94,21 +93,21 @@ class _LoginPageState extends State<LoginPage> {
                   obscureText: true,
                   decoration: InputDecoration(
                       hintText: "Password",
-                      prefixIcon: Icon(Icons.password_outlined,
+                      prefixIcon: const Icon(Icons.password_outlined,
                           color: Colors.deepOrangeAccent),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide:
-                              BorderSide(color: Colors.white, width: 1.0)),
+                              const BorderSide(color: Colors.white, width: 1.0)),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide:
-                              BorderSide(color: Colors.white, width: 1.0)),
+                              const BorderSide(color: Colors.white, width: 1.0)),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30))),
                 ),
               ),
-              SizedBox(height: 15,),
+              const SizedBox(height: 15,),
               SizedBox(
                 height: 50,
                 width: 200,
@@ -117,15 +116,10 @@ class _LoginPageState extends State<LoginPage> {
                   bool shouldNavigate =
                       await signIn(emailController.text, passwordController.text);
                   if (shouldNavigate) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HomePage(),
-                      ),
-                    );
+                    Get.to(HomePage());
                     }
                   },
-                  child: Text('Login'),
+                  child: const Text('Login'),
                   ),
                 ),
                 const SizedBox(height: 15,),
@@ -163,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
               TextSpan(
                   text: "Sign Up",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16,
                       fontFamily: 'Karla',

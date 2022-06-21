@@ -23,11 +23,11 @@ class _SignUpPageState extends State<SignUpPage> {
         child: Container(
           child: Column(
             children: [
-              Padding(padding: EdgeInsets.only(
+              const Padding(padding: EdgeInsets.only(
                 bottom: 120,
                 ),
               ),
-              Text('Sign Up',
+              const Text('Sign Up',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 30,
@@ -44,7 +44,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       BoxShadow(
                           blurRadius: 10,
                           spreadRadius: 7,
-                          offset: Offset(1, 1),
+                          offset: const Offset(1, 1),
                           color: Colors.grey.withOpacity(0.2))
                     ]),
                 child: TextField(
@@ -52,20 +52,20 @@ class _SignUpPageState extends State<SignUpPage> {
                   decoration: InputDecoration(
                       hintText: "Email",
                       prefixIcon:
-                          Icon(Icons.email, color: Colors.deepOrangeAccent),
+                          const Icon(Icons.email, color: Colors.deepOrangeAccent),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide:
-                              BorderSide(color: Colors.white, width: 1.0)),
+                              const BorderSide(color: Colors.white, width: 1.0)),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide:
-                              BorderSide(color: Colors.white, width: 1.0)),
+                              const BorderSide(color: Colors.white, width: 1.0)),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30))),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Container(
                 width: 300,
                 decoration: BoxDecoration(
@@ -75,7 +75,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       BoxShadow(
                           blurRadius: 10,
                           spreadRadius: 7,
-                          offset: Offset(1, 1),
+                          offset: const Offset(1, 1),
                           color: Colors.grey.withOpacity(0.2))
                     ]),
                 child: TextField(
@@ -83,16 +83,16 @@ class _SignUpPageState extends State<SignUpPage> {
                   obscureText: true,
                   decoration: InputDecoration(
                       hintText: "Password",
-                      prefixIcon: Icon(Icons.password_outlined,
+                      prefixIcon: const Icon(Icons.password_outlined,
                           color: Colors.deepOrangeAccent),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide:
-                              BorderSide(color: Colors.white, width: 1.0)),
+                              const BorderSide(color: Colors.white, width: 1.0)),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide:
-                              BorderSide(color: Colors.white, width: 1.0)),
+                              const BorderSide(color: Colors.white, width: 1.0)),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30))),
                 ),
@@ -106,18 +106,13 @@ class _SignUpPageState extends State<SignUpPage> {
                   bool shouldNavigate =
                       await register(emailController.text, passwordController.text);
                   if (shouldNavigate) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HomePage(),
-                      ),
-                    );
+                    Get.to(HomePage());
                     }
                   },
-                  child: Text('Sign Up'),
+                  child: const Text('Sign Up'),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
           height: 10,
         ),
         RichText(
